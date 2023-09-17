@@ -27,26 +27,24 @@ const modalStyle = {
     height: "328px",
     left: "50%",
     top: "50%",
-    display: "grid"
-
+    display: "grid",
   },
 };
 
 const inputStyle = {
-    padding: "8px",
-    borderRadius: "5px",
-    marginBottom: "10px"
-}
+  padding: "8px",
+  borderRadius: "5px",
+  marginBottom: "10px",
+};
 
 const btnStyle = {
   border: "1px solid black",
-  backgroundColor: 'rgb(232 232 251)',
+  backgroundColor: "rgb(232 232 251)",
   color: "black",
   padding: "10px",
   borderRadius: "7px",
   maxWidth: "fit-content",
-  cursor: "pointer"
-
+  cursor: "pointer",
 };
 
 const AddItemModal = ({ isOpen, onClose, onAdd, editingItem }) => {
@@ -78,13 +76,15 @@ const AddItemModal = ({ isOpen, onClose, onAdd, editingItem }) => {
     >
       <h2>{editingItem ? "Редагувати позицію" : "Додати позицію"}</h2>
       <label>Найменування:</label>
-      <input style={inputStyle}
+      <input
+        style={inputStyle}
         type="text"
         value={caption}
         onChange={(e) => setCaption(e.target.value)}
       />
       <label>Кількість:</label>
-      <input style={inputStyle}
+      <input
+        style={inputStyle}
         type="number"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}

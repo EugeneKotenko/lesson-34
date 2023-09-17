@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addItem, editItem, deleteItem } from './action.js';
-import ShoppingItem from './ShoppingItem.jsx';
-import AddItemModal from './AddItemModal.jsx';
-import './styles.scss';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem, editItem, deleteItem } from "./action.js";
+import ShoppingItem from "./ShoppingItem.jsx";
+import AddItemModal from "./AddItemModal.jsx";
+import "./styles.scss";
 
 const btnStyle = {
-    border: '1px solid black',
-    backgroundColor: 'rgb(232 232 251)',
-    color: 'black',
-    padding: '10px',
-    borderRadius: '7px',
-    cursor: 'pointer'
-}
+  border: "1px solid black",
+  backgroundColor: "rgb(232 232 251)",
+  color: "black",
+  padding: "10px",
+  borderRadius: "7px",
+  cursor: "pointer",
+};
 
 const ShoppingList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,7 +42,9 @@ const ShoppingList = () => {
   return (
     <div>
       <h1>Список покупок</h1>
-      <button style={btnStyle} onClick={() => setIsModalOpen(true)}>Додати позицію</button>
+      <button style={btnStyle} onClick={() => setIsModalOpen(true)}>
+        Додати позицію
+      </button>
       {items.map((item) => (
         <ShoppingItem
           key={item.id}
@@ -51,7 +53,7 @@ const ShoppingList = () => {
           onDeleteClick={() => handleDeleteClick(item)}
         />
       ))}
-      <AddItemModal 
+      <AddItemModal
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);
