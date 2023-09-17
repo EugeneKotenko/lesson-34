@@ -1,71 +1,65 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { addItem, editItem, deleteItem } from "./Action.jsx";
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import ProductInput from "./ProductInput.jsx";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem, editItem, deleteItem } from './action.js';
+import ShoppingItem from './ShoppingItem.jsx';
+import AddItemModal from './AddItemModal.jsx';
+import './styles.scss';
+
+const btnStyle = {
+    border: '1px solid black',
+    backgroundColor: 'rgb(232 232 251)',
+    color: 'black',
+    padding: '10px',
+    borderRadius: '7px',
+    cursor: 'pointer'
+}
 
 const ShoppingList = () => {
-  const items = useSelector((state) => state.items);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
   const dispatch = useDispatch();
+  const items = useSelector((state) => state.items);
 
-  const columnDefs = [
-    { headerName: "Caption", field: "caption" },
-    { headerName: "Amount", field: "amount" },
-    {
-      headerName: "Actions",
-      cellRendererFramework: (params) => {
-        const editButton = (
-          <button onClick={() => handleEditItem(params.data)}>
-            Редагувати
-          </button>
-        );
-        const deleteButton = (
-          <button onClick={() => handleDeleteItem(params.data.id)}>
-            Видалити
-          </button>
-        );
-        return (
-          <div>
-            {editButton} {deleteButton}
-          </div>
-        );
-      },
-    },
-  ];
-
-  const defaultColDef = {
-    sortable: true,
-    flex: 1,
+  const handleAddItem = (caption, amount) => {
+    if (editingItem) {
+      dispatch(editItem(editingItem.id, caption, amount));
+      setEditingItem(null);
+    } else {
+      dispatch(addItem(caption, amount));
+    }
+    setIsModalOpen(false);
   };
 
-  const handleAddItem = (newItem) => {
-    dispatch(addItem(newItem));
+  const handleEditClick = (item) => {
+    setEditingItem(item);
+    setIsModalOpen(true);
   };
 
-  const handleEditItem = (item) => {
-    dispatch(editItem(item.id, item));
-  };
-
-  const handleDeleteItem = (id) => {
-    dispatch(deleteItem(id));
+  const handleDeleteClick = (item) => {
+    dispatch(deleteItem(item.id));
   };
 
   return (
     <div>
-      <h2>Список покупок</h2>
-      <div className="ag-theme-alpine" style={{ height: 300, width: "80%" }}>
-        <AgGridReact
-          columnDefs={columnDefs}
-          defaultColDef={defaultColDef}
-          rowData={items}
-          domLayout="autoHeight"
+      <h1>Список покупок</h1>
+      <button style={btnStyle} onClick={() => setIsModalOpen(true)}>Додати позицію</button>
+      {items.map((item) => (
+        <ShoppingItem
+          key={item.id}
+          item={item}
+          onEditClick={() => handleEditClick(item)}
+          onDeleteClick={() => handleDeleteClick(item)}
         />
-      </div>
-      <div>
-      <ProductInput onAddItem={handleAddItem} />
-      </div>
+      ))}
+      <AddItemModal 
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingItem(null);
+        }}
+        onAdd={handleAddItem}
+        editingItem={editingItem}
+      />
     </div>
   );
 };

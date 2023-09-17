@@ -1,5 +1,19 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App.jsx";
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { shoppingListReducer } from './Reducer.jsx';
+import ShoppingList from './ShoppingList.jsx';
+import Modal from 'react-modal';
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const store = createStore(shoppingListReducer);
+
+Modal.setAppElement('#root');
+
+const root = createRoot(document.getElementById('root'));
+
+root.render(
+  <Provider store={store}>
+    <ShoppingList />
+  </Provider>
+);
