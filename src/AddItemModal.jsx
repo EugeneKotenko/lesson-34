@@ -62,9 +62,21 @@ const AddItemModal = ({ isOpen, onClose, onAdd, editingItem }) => {
   }, [editingItem]);
 
   const handleAddClick = () => {
-    onAdd(caption, amount);
-    setCaption("");
-    setAmount("");
+    if (!caption.trim()) {
+      alert("Введіть найменування.");
+    } else if (parseFloat(amount) <= 0 || isNaN(parseFloat(amount))) {
+      alert("Кількість має бути більше за 0.");
+    } else {
+      onAdd(caption, parseFloat(amount));
+      setCaption("");
+      setAmount("");
+    }
+  };
+
+  const handleCaptionChange = (e) => {
+    const inputText = e.target.value;
+    const filteredText = inputText.replace(/[0-9]/g, "");
+    setCaption(filteredText);
   };
 
   return (
@@ -80,12 +92,12 @@ const AddItemModal = ({ isOpen, onClose, onAdd, editingItem }) => {
         style={inputStyle}
         type="text"
         value={caption}
-        onChange={(e) => setCaption(e.target.value)}
+        onChange={handleCaptionChange}
       />
       <label>Кількість:</label>
       <input
         style={inputStyle}
-        type="number"
+        type="text"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
       />

@@ -46,6 +46,7 @@
     "react-router-dom": "^6.16.0",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
+    "shopping-list": "github:EugeneKotenko/lesson-34",
     "styled-components": "^6.0.8"
   }
 }
